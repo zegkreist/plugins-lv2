@@ -6,6 +6,7 @@ JACK/PipeWire). Plain C, no dependencies beyond the LV2 headers.
 | Plugin | What it does |
 |---|---|
 | [Baixo Gate](baixo-gate/) | Noise gate without chatter or chopped notes, plus a multiband hiss reducer that keeps working while you play. 1 ms latency. |
+| [Baixo Fuzz](baixo-fuzz/) | Light, warm doom fuzz. Clean low end split from the fuzz, time-aligned; 4x oversampled. 0.33 ms latency. |
 
 ## Build everything
 
@@ -16,6 +17,9 @@ make test       # run each plugin's offline tests
 ```
 
 Each plugin folder also builds on its own, and has its own README.
+
+Distortion plugins share [`common/bass_split.h`](common/bass_split.h): an LR4 crossover
+that keeps the bass lows clean under the distortion, and a 4x linear-phase oversampler.
 
 ## License
 

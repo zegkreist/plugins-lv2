@@ -1,0 +1,166 @@
+@prefix doap:   <http://usefulinc.com/ns/doap#> .
+@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix units:  <http://lv2plug.in/ns/extensions/units#> .
+@prefix pprops: <http://lv2plug.in/ns/ext/port-props#> .
+
+<urn:zegkreist:lv2:baixo-gate>
+	a lv2:Plugin , lv2:GatePlugin ;
+	doap:name "Baixo Gate" ;
+	doap:license <http://opensource.org/licenses/isc> ;
+	rdfs:comment "Noise gate com histerese e filtro de chiado dinamico, feito para baixo." ;
+	lv2:optionalFeature lv2:hardRTCapable ;
+	lv2:port [
+		a lv2:AudioPort , lv2:InputPort ;
+		lv2:index 0 ;
+		lv2:symbol "in_l" ;
+		lv2:name "In L"
+	] , [
+		a lv2:AudioPort , lv2:InputPort ;
+		lv2:index 1 ;
+		lv2:symbol "in_r" ;
+		lv2:name "In R"
+	] , [
+		a lv2:AudioPort , lv2:OutputPort ;
+		lv2:index 2 ;
+		lv2:symbol "out_l" ;
+		lv2:name "Out L"
+	] , [
+		a lv2:AudioPort , lv2:OutputPort ;
+		lv2:index 3 ;
+		lv2:symbol "out_r" ;
+		lv2:name "Out R"
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 4 ;
+		lv2:symbol "threshold" ;
+		lv2:name "Threshold (abre)" ;
+		lv2:default -45.0 ;
+		lv2:minimum -90.0 ;
+		lv2:maximum -10.0 ;
+		units:unit units:db
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 5 ;
+		lv2:symbol "hysteresis" ;
+		lv2:name "Histerese" ;
+		rdfs:comment "Fecha so quando o nivel cai este tanto abaixo do threshold." ;
+		lv2:default 13.0 ;
+		lv2:minimum 0.0 ;
+		lv2:maximum 24.0 ;
+		units:unit units:db
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 6 ;
+		lv2:symbol "attack" ;
+		lv2:name "Attack" ;
+		lv2:default 1.0 ;
+		lv2:minimum 0.1 ;
+		lv2:maximum 50.0 ;
+		lv2:portProperty pprops:logarithmic ;
+		units:unit units:ms
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 7 ;
+		lv2:symbol "hold" ;
+		lv2:name "Hold" ;
+		lv2:default 100.0 ;
+		lv2:minimum 0.0 ;
+		lv2:maximum 1000.0 ;
+		units:unit units:ms
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 8 ;
+		lv2:symbol "release" ;
+		lv2:name "Release" ;
+		lv2:default 300.0 ;
+		lv2:minimum 5.0 ;
+		lv2:maximum 3000.0 ;
+		lv2:portProperty pprops:logarithmic ;
+		units:unit units:ms
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 9 ;
+		lv2:symbol "range" ;
+		lv2:name "Range (atenuacao fechado)" ;
+		lv2:default -45.0 ;
+		lv2:minimum -90.0 ;
+		lv2:maximum 0.0 ;
+		units:unit units:db
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 10 ;
+		lv2:symbol "hiss" ;
+		lv2:name "Filtro de chiado" ;
+		rdfs:comment "0 = desligado, 1 = maximo. Fecha um passa-baixa conforme a nota decai." ;
+		lv2:default 0.8 ;
+		lv2:minimum 0.0 ;
+		lv2:maximum 1.0
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 11 ;
+		lv2:symbol "hiss_freq" ;
+		lv2:name "Chiado: corte minimo" ;
+		lv2:default 2500.0 ;
+		lv2:minimum 500.0 ;
+		lv2:maximum 8000.0 ;
+		lv2:portProperty pprops:logarithmic ;
+		units:unit units:hz
+	] , [
+		a lv2:OutputPort , lv2:ControlPort ;
+		lv2:index 12 ;
+		lv2:symbol "level" ;
+		lv2:name "Nivel detectado" ;
+		lv2:default -100.0 ;
+		lv2:minimum -100.0 ;
+		lv2:maximum 0.0 ;
+		units:unit units:db
+	] , [
+		a lv2:OutputPort , lv2:ControlPort ;
+		lv2:index 13 ;
+		lv2:symbol "gain" ;
+		lv2:name "Reducao atual" ;
+		lv2:default 0.0 ;
+		lv2:minimum -90.0 ;
+		lv2:maximum 0.0 ;
+		units:unit units:db
+	] , [
+		a lv2:OutputPort , lv2:ControlPort ;
+		lv2:index 14 ;
+		lv2:symbol "latency" ;
+		lv2:name "Latency" ;
+		lv2:designation lv2:latency ;
+		lv2:portProperty lv2:reportsLatency , lv2:integer ;
+		lv2:minimum 0 ;
+		lv2:maximum 1024 ;
+		units:unit units:frame
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 15 ;
+		lv2:symbol "nr_reduction" ;
+		lv2:name "Profundidade do redutor" ;
+		rdfs:comment "Quanto cada banda acima de 300 Hz pode ser abaixada quando so tem chiado nela. 0 = desligado." ;
+		lv2:default -30.0 ;
+		lv2:minimum -40.0 ;
+		lv2:maximum 0.0 ;
+		units:unit units:db
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 16 ;
+		lv2:symbol "nr_strength" ;
+		lv2:name "Força do redutor" ;
+		rdfs:comment "Mais alto = tira mais chiado, mas pode abafar o brilho da corda." ;
+		lv2:default 4.0 ;
+		lv2:minimum 0.5 ;
+		lv2:maximum 10.0 ;
+		lv2:portProperty pprops:logarithmic
+	] , [
+		a lv2:OutputPort , lv2:ControlPort ;
+		lv2:index 17 ;
+		lv2:symbol "nr_meter" ;
+		lv2:name "Redutor atuando agora" ;
+		lv2:default 0.0 ;
+		lv2:minimum -40.0 ;
+		lv2:maximum 0.0 ;
+		units:unit units:db
+	] .

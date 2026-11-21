@@ -1,0 +1,8 @@
+# build output
+*.so
+*.o
+test_gate
+
+# raw local recordings used for tuning (large); demo clips live in examples/
+gravacoes/
+*.f32

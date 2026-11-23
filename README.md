@@ -7,6 +7,7 @@ JACK/PipeWire). Plain C, no dependencies beyond the LV2 headers.
 |---|---|
 | [Baixo Gate](baixo-gate/) | Noise gate without chatter or chopped notes, plus a multiband hiss reducer that keeps working while you play. 1 ms latency. |
 | [Baixo Fuzz](baixo-fuzz/) | Light, warm doom fuzz. Clean low end split from the fuzz, time-aligned; 4x oversampled. 0.33 ms latency. |
+| [Baixo Delay](baixo-delay/) | Psychedelic, airy delay: tape-wobbled, diffused, ping-pong repeats over a dry low end. Zero latency. |
 
 ## Install (prebuilt)
 
@@ -36,7 +37,8 @@ on Debian/Ubuntu).
 Each plugin folder also builds on its own, and has its own README.
 
 Distortion plugins share [`common/bass_split.h`](common/bass_split.h): an LR4 crossover
-that keeps the bass lows clean under the distortion, and a 4x linear-phase oversampler.
+that keeps the bass lows clean under the distortion, and a 4x linear-phase oversampler. Baixo Delay
+uses its crossover to keep the lows out of the repeats.
 
 ## License
 

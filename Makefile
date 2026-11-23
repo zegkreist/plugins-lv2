@@ -1,4 +1,4 @@
-PLUGINS := baixo-gate baixo-fuzz
+PLUGINS := baixo-gate baixo-fuzz baixo-delay
 
 all install uninstall clean test:
 	@for p in $(PLUGINS); do $(MAKE) -C $$p $@ || exit 1; done

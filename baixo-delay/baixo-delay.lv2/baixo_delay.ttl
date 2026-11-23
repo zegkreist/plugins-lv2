@@ -1,0 +1,126 @@
+@prefix doap:   <http://usefulinc.com/ns/doap#> .
+@prefix lv2:    <http://lv2plug.in/ns/lv2core#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix units:  <http://lv2plug.in/ns/extensions/units#> .
+@prefix pprops: <http://lv2plug.in/ns/ext/port-props#> .
+
+<urn:zegkreist:lv2:baixo-delay>
+	a lv2:Plugin , lv2:DelayPlugin ;
+	doap:name "Baixo Delay" ;
+	doap:license <http://opensource.org/licenses/isc> ;
+	rdfs:comment "Delay psicodelico e aereo para baixo: repeticoes moduladas, difusas e em estereo, com o grave seco." ;
+	lv2:optionalFeature lv2:hardRTCapable ;
+	lv2:port [
+		a lv2:AudioPort , lv2:InputPort ;
+		lv2:index 0 ;
+		lv2:symbol "in_l" ;
+		lv2:name "In L"
+	] , [
+		a lv2:AudioPort , lv2:InputPort ;
+		lv2:index 1 ;
+		lv2:symbol "in_r" ;
+		lv2:name "In R"
+	] , [
+		a lv2:AudioPort , lv2:OutputPort ;
+		lv2:index 2 ;
+		lv2:symbol "out_l" ;
+		lv2:name "Out L"
+	] , [
+		a lv2:AudioPort , lv2:OutputPort ;
+		lv2:index 3 ;
+		lv2:symbol "out_r" ;
+		lv2:name "Out R"
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 4 ;
+		lv2:symbol "time" ;
+		lv2:name "Tempo" ;
+		rdfs:comment "Tempo entre as repeticoes. Mudar com o eco soando desliza o pitch, como fita." ;
+		lv2:default 420.0 ;
+		lv2:minimum 60.0 ;
+		lv2:maximum 2000.0 ;
+		lv2:portProperty pprops:logarithmic ;
+		units:unit units:ms
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 5 ;
+		lv2:symbol "feedback" ;
+		lv2:name "Repetições" ;
+		rdfs:comment "Quanto de cada repeticao volta para o delay. Perto de 100 o eco se sustenta e auto-oscila (saturado, sem estourar)." ;
+		lv2:default 50.0 ;
+		lv2:minimum 0.0 ;
+		lv2:maximum 100.0 ;
+		units:unit units:pc
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 6 ;
+		lv2:symbol "level" ;
+		lv2:name "Nível eco" ;
+		rdfs:comment "Volume das repeticoes. O som seco passa sempre inteiro. No minimo (-40) desliga." ;
+		lv2:default -4.0 ;
+		lv2:minimum -40.0 ;
+		lv2:maximum 6.0 ;
+		units:unit units:db
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 7 ;
+		lv2:symbol "tone" ;
+		lv2:name "Tom" ;
+		rdfs:comment "Corte de agudos aplicado a cada repeticao. Mais baixo = repeticoes mais escuras, estilo analogico." ;
+		lv2:default 2800.0 ;
+		lv2:minimum 500.0 ;
+		lv2:maximum 12000.0 ;
+		lv2:portProperty pprops:logarithmic ;
+		units:unit units:hz
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 8 ;
+		lv2:symbol "split" ;
+		lv2:name "Divisão" ;
+		rdfs:comment "Abaixo desta frequencia o baixo nao repete: o grave fica seco e firme." ;
+		lv2:default 180.0 ;
+		lv2:minimum 40.0 ;
+		lv2:maximum 800.0 ;
+		lv2:portProperty pprops:logarithmic ;
+		units:unit units:hz
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 9 ;
+		lv2:symbol "mod" ;
+		lv2:name "Modulação" ;
+		rdfs:comment "Ondulacao de fita nas repeticoes (wow/chorus), girando entre esquerda e direita." ;
+		lv2:default 4.0 ;
+		lv2:minimum 0.0 ;
+		lv2:maximum 10.0
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 10 ;
+		lv2:symbol "rate" ;
+		lv2:name "Velocidade" ;
+		rdfs:comment "Velocidade da modulacao." ;
+		lv2:default 0.5 ;
+		lv2:minimum 0.05 ;
+		lv2:maximum 5.0 ;
+		lv2:portProperty pprops:logarithmic ;
+		units:unit units:hz
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 11 ;
+		lv2:symbol "diffusion" ;
+		lv2:name "Difusão" ;
+		rdfs:comment "Espalha cada repeticao numa nuvem. 0 = ecos nitidos, alto = quase um reverb." ;
+		lv2:default 35.0 ;
+		lv2:minimum 0.0 ;
+		lv2:maximum 100.0 ;
+		units:unit units:pc
+	] , [
+		a lv2:InputPort , lv2:ControlPort ;
+		lv2:index 12 ;
+		lv2:symbol "width" ;
+		lv2:name "Abertura" ;
+		rdfs:comment "Estereo das repeticoes: 0 = eco no centro, 100 = ping-pong entre esquerda e direita." ;
+		lv2:default 70.0 ;
+		lv2:minimum 0.0 ;
+		lv2:maximum 100.0 ;
+		units:unit units:pc
+	] .

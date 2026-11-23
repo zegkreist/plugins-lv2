@@ -3,6 +3,7 @@
 *.o
 test_gate
 test_fuzz
+test_delay
 
 # raw local recordings used for tuning (large); demo clips live in examples/
 gravacoes/
